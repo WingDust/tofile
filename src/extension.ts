@@ -64,7 +64,8 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log("Change in the text editor");
     const activeEditor = vscode.window.activeTextEditor;
 		// const selection = event.selections[i];
-    // console.log(event.selections);
+    // vscode.TextEditorSelectionChangeKind;
+    // console.log(event);
     // 
     // console.log(activeEditor?.document.getText());
     if (activeEditor?.document.getText().length===len) {return;};
@@ -78,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
       let range = new vscode.Range(preiousline,nextline);
       const curtxt =  activeEditor?.document.getText(range);
 
-      console.log(JSON.stringify(curtxt?.trimLeft().substr(0,3)));
+      // console.log(JSON.stringify(curtxt?.trimLeft().substr(0,3)));
       if (curtxt?.trimLeft().substr(0,3)==="|*|") {
         return;
       };
@@ -89,30 +90,30 @@ export function activate(context: vscode.ExtensionContext) {
         let range = new vscode.Range(preiousline,nextline);
         const pretxt =  activeEditor?.document.getText(range);
         // 修正缩进不对
-        /*\ ## \s 匹配空格的会 \n 一同匹配
-        |*| ```ts
-        |*| '  \n'.match(new RegExp(String.raw`^\s*`))
-        |*| // ["  \n", index: 0, input: "  \n", groups: undefined]
-        |*| ```
+        /*\ ## 只匹配空格
+        |*|  ```ts
+        |*|  '  \n'.match(new RegExp(String.raw`^\x20*`))
+        |*|  ```
+        |*|  - R:
+        |*|    - [正则表达式：只匹配空格，不匹配换行等其余空白字符](https://blog.csdn.net/jsjcmq/article/details/111935641)
         \*/
 
-        
-        let num = (curtxt?.length!-curtxt?.trimLeft().length!)-(pretxt?.length!-pretxt?.trimLeft().length!);
-        // console.log(num);
-        // console.log(curtxt?.length!);
-        // console.log(curtxt?.trimLeft().length!);
-        // console.log(pretxt?.length!);
-        // console.log(pretxt?.trimLeft().length!);
-        // console.log('curtxt:',curtxt);
+        let spa = /^\x20*/;
+        // let num = (curtxt?.length!-curtxt?.trimLeft().length!)-(pretxt?.length!-pretxt?.trimLeft().length!);
+        let num = pretxt?.match(spa)![0].length!-curtxt?.match(spa)![0].length!;
+        console.log(num);
         // console.log('curtxt.trim:',curtxt?.trimLeft());
         // console.log('pretxt:',pretxt);
         // console.log('pretxt.trim:',pretxt?.trimLeft());
         // console.log(curtxt?.match(spa)![0]);
 
+        console.log((curtxt?.match(spa)![0].length));
+        console.log((pretxt?.match(spa)![0].length));
         console.log(JSON.stringify(curtxt?.match(spa)![0]));
         console.log(JSON.stringify(pretxt?.match(spa)![0]));
-        console.log(pretxt?.match(spa)![0]!==curtxt?.match(spa)![0]);
-        // if (pretxt?.match(spa)![0]!==curtxt?.match(spa)![0]){
+        // console.log(pretxt?.match(spa)![0]!==curtxt?.match(spa)![0]);
+        // if (num>0){
+        //   console.log('spa');
         //   vscode.window.showTextDocument(activeEditor?.document!)
         //   .then(e=>{
         //     e.edit(edit=>{
@@ -120,7 +121,18 @@ export function activate(context: vscode.ExtensionContext) {
         //     });
         //   });
         // }
+        let n = pretxt?.match(spa)![0].length!-selection.start.character;
+        if (n>0){
+          console.log('spa');
+          vscode.window.showTextDocument(activeEditor?.document!)
+          .then(e=>{
+            e.edit(edit=>{
+              edit.insert(new vscode.Position(selection.start.line,selection.start.character)," ".repeat(n));
+            });
+          });
+        }
         if (pretxt?.trimLeft().substr(0,3)==="|*|"&&curtxt?.trimLeft().substr(0,3)==="") {
+          console.log(selection.start.line,selection.start.character);
           vscode.window.showTextDocument(activeEditor?.document!)
           .then(e=>{
             e.edit(edit=>{

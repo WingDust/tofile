@@ -9,6 +9,15 @@
 	"categories": [
 		"Other"
 	],
+	"icon": "icon.png",
+	"homepage": "https://github.com/WingDust/tofile",
+	"bugs": {
+        "url": "https://github.com/WingDust/tofile/issues"
+    },
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/WingDust/tofile.git"
+    },
 	"activationEvents": [
         "onCommand:tofile.helloWorld"
 	],
