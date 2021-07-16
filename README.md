@@ -1,6 +1,8 @@
 # tofile README
 
 This is the README for your extension "tofile". After writing up a brief description, we recommend including the following sections.
+> This Plugin for script that generate Fragments markdown file content with file location
+> This Plugin do thing is goto file location with current cursor
 
 ## Features
 
@@ -13,6 +15,7 @@ This is the README for your extension "tofile". After writing up a brief descrip
 ## Requirements
 
 If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+  - generate Fragments markdown file is `src/script/fragment.ts` dependencies `ripgrep` 
 
 ## Extension Settings
 
