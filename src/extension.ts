@@ -1,7 +1,8 @@
 /*\ 
 |*|  - R:
 |*|   - [VSCode Open a File In a Specific Line Number Using JS](https://stackoverflow.com/questions/62453615/vscode-open-a-file-in-a-specific-line-number-using-js)
-|*|   - G
+|*|   - [Capturing keystrokes in visual studio code extension](https://stackoverflow.com/questions/36727520/capturing-keystrokes-in-visual-studio-code-extension#answer-36753622)
+|*|   - [How to open file and insert text using the VSCode API](https://stackoverflow.com/questions/38279920/how-to-open-file-and-insert-text-using-the-vscode-api)
 \*/
 
 
@@ -88,17 +89,30 @@ export function activate(context: vscode.ExtensionContext) {
         let range = new vscode.Range(preiousline,nextline);
         const pretxt =  activeEditor?.document.getText(range);
         // 修正缩进不对
+        /*\ ## \s 匹配空格的会 \n 一同匹配
+        |*| ```ts
+        |*| '  \n'.match(new RegExp(String.raw`^\s*`))
+        |*| // ["  \n", index: 0, input: "  \n", groups: undefined]
+        |*| ```
+        \*/
+
+        
         let num = (curtxt?.length!-curtxt?.trimLeft().length!)-(pretxt?.length!-pretxt?.trimLeft().length!);
-        console.log(num);
-        console.log(curtxt?.length!);
-        console.log(curtxt?.trimLeft().length!);
-        console.log(pretxt?.length!);
-        console.log(pretxt?.trimLeft().length!);
-        console.log(curtxt);
-        console.log(curtxt);
-        console.log(pretxt);
-        console.log(pretxt);
-        // if (num!==0){
+        // console.log(num);
+        // console.log(curtxt?.length!);
+        // console.log(curtxt?.trimLeft().length!);
+        // console.log(pretxt?.length!);
+        // console.log(pretxt?.trimLeft().length!);
+        // console.log('curtxt:',curtxt);
+        // console.log('curtxt.trim:',curtxt?.trimLeft());
+        // console.log('pretxt:',pretxt);
+        // console.log('pretxt.trim:',pretxt?.trimLeft());
+        // console.log(curtxt?.match(spa)![0]);
+
+        console.log(JSON.stringify(curtxt?.match(spa)![0]));
+        console.log(JSON.stringify(pretxt?.match(spa)![0]));
+        console.log(pretxt?.match(spa)![0]!==curtxt?.match(spa)![0]);
+        // if (pretxt?.match(spa)![0]!==curtxt?.match(spa)![0]){
         //   vscode.window.showTextDocument(activeEditor?.document!)
         //   .then(e=>{
         //     e.edit(edit=>{
