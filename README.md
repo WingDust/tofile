@@ -1,20 +1,11 @@
 # tofile README
-
-This is the README for your extension "tofile". After writing up a brief description, we recommend including the following sections.
 > This Plugin for script that generate Fragments markdown file content with file location
 > This Plugin do thing is goto file location with current cursor
 
 ## Features
 
 
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
 ## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
   - generate Fragments markdown file is `src/script/fragment.ts` dependencies `ripgrep` 
 
 ## Extension Settings
@@ -45,6 +36,9 @@ This extension contributes the following settings:
     |*|  ```
     \*/
     ```
+
+### VSCode Extension Issues
+- [activationEvents.workspaceContains doesn't fire for directory](https://github.com/Microsoft/vscode/issues/2739)
 
 
 ### For more information

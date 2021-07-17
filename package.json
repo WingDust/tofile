@@ -19,14 +19,14 @@
         "url": "https://github.com/WingDust/tofile.git"
     },
 	"activationEvents": [
-        "onCommand:tofile.helloWorld"
+        "workspaceContains:.git/config"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "tofile.helloWorld",
-				"title": "Hello World"
+				"command": "tofile.gotofile",
+				"title": "gotofile"
 			}
 		]
 	},
