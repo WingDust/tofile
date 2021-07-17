@@ -3,6 +3,7 @@
 	"displayName": "tofile",
 	"description": "goto file location with line number",
 	"version": "0.0.1",
+	"publisher": "wingdust",
 	"engines": {
 		"vscode": "^1.58.0"
 	},
