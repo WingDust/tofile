@@ -19,6 +19,9 @@ This extension contributes the following settings:
 * `myExtension.enable`: enable/disable this extension
 * `myExtension.thing`: set to `blah` to do something
 
+## Changelog
+  - [ ] make a single line and mutli line fragment.
+
 ## Known Issues
   - **Can't use literal Regex**
     - Error example
@@ -39,6 +42,7 @@ This extension contributes the following settings:
 
 ### VSCode Extension Issues
 - [activationEvents.workspaceContains doesn't fire for directory](https://github.com/Microsoft/vscode/issues/2739)
+- Develop
 
 
 ### For more information
