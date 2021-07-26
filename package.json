@@ -20,7 +20,7 @@
         "url": "https://github.com/WingDust/tofile.git"
     },
 	"activationEvents": [
-        "workspaceContains:.git/config"
+        "*"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
