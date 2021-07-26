@@ -2,9 +2,13 @@
 import {appendFileSync} from "fs";
 import { exec} from "child_process";
 
+const args = process.argv;
+
+console.log(args);
+
 interface Fragment{
   text:string
-  line_number:number
+  lineNumber:number
 }
 interface Fragments{
   filename:string
@@ -22,9 +26,7 @@ export const lsfiles = async () => {
     console.count('out');
     console.log(data);
 
-    /*\ ## 通过 throw new Error('') 来中断 `forof`
-    |*|
-    \*/
+    // 通过 throw new Error('') 来中断 `forof`
     let err;
     try {
       let comp:Fragments = Object.create(null);
@@ -44,7 +46,7 @@ export const lsfiles = async () => {
           comp.filename = ctx.data.path.text;
         }
         if (ctx?.type==='match') {
-        comp.frags.push({text:ctx.data.lines.text,line_number:ctx.data.line_number});
+        comp.frags.push({text:ctx.data.lines.text,lineNumber:ctx.data.lineNumber});
         }
       }
       if (comp.frags.length!==0){
@@ -86,7 +88,7 @@ const contentnormalize = (content:Fragments[])=>{
             let title = line.trim().substr(3,line.length).trim();
             if (title.length!==0) {
               write(title);
-              write(`  > ${i.filename}#L${j.line_number}`);
+              write(`  > ${i.filename}#L${j.lineNumber}`);
               break;
             }
             // console.log(1);

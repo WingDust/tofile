@@ -1,4 +1,6 @@
 # tofile README
+## English | [简体中文](https://github.com/WingDust/tofile/blob/master/README-zh_cn.md)
+
 > This Plugin for script that generate Fragments markdown file content with file location
 > This Plugin do thing is goto file location with current cursor
 
@@ -39,7 +41,7 @@ This extension contributes the following settings:
     |*|  ```
     \*/
     ```
-
+k
 ### VSCode Extension Issues
 - [activationEvents.workspaceContains doesn't fire for directory](https://github.com/Microsoft/vscode/issues/2739)
 - Develop
