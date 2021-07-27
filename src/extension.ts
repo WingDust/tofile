@@ -3,7 +3,6 @@
 |*|   - [VSCode Open a File In a Specific Line Number Using JS](https://stackoverflow.com/questions/62453615/vscode-open-a-file-in-a-specific-line-number-using-js)
 |*|   - [Capturing keystrokes in visual studio code extension](https://stackoverflow.com/questions/36727520/capturing-keystrokes-in-visual-studio-code-extension#answer-36753622)
 |*|   - [How to open file and insert text using the VSCode API](https://stackoverflow.com/questions/38279920/how-to-open-file-and-insert-text-using-the-vscode-api)
-|*|   - [vscode-extension-samples](https://github.com/microsoft/vscode-extension-samples/blob/main/vim-sample/src/extension.ts)
 \*/
 
 
@@ -15,19 +14,6 @@ import { join } from "path";
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-  // function registerCommandNice(commandId: string, run: (...args: any[]) => void): void {
-  //   context.subscriptions.push(vscode.commands.registerCommand(commandId, run));
-  // }
-
-  // registerCommandNice('default:type',(args)=>{
-  //   console.log('run bk');
-  //   if (!vscode.window.activeTextEditor) {
-	// 		return;
-	// 	}
-  //   console.log('args:');
-  //   console.log(args);
-  // });
 
 	
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
