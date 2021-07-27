@@ -83,15 +83,14 @@ export function activate(context: vscode.ExtensionContext) {
       const curtxt =  activeEditor?.document.getText(range);
 
       // console.log(JSON.stringify(curtxt?.trimLeft().substr(0,3)));
-      if (curtxt?.trimLeft().substr(0,3)==="|*|") {
-        return;
-      };
+      if (curtxt?.trimLeft().substr(0,3)==="|*|") {return;};
 
       if(selection.start.line===selection.end.line&&selection.start.character===selection.end.character){
         let preiousline = new vscode.Position(selection.start.line-1,0);
         let nextline = new vscode.Position(selection.start.line,0);
         let range = new vscode.Range(preiousline,nextline);
         const pretxt =  activeEditor?.document.getText(range);
+        if (pretxt?.trimLeft().substr(0,3)!=='|*|'){return;}
         // 修正缩进不对
         /*\ ## 只匹配空格
         |*|  ```ts
@@ -103,8 +102,8 @@ export function activate(context: vscode.ExtensionContext) {
 
         let spa = /^\x20*/;
         // let num = (curtxt?.length!-curtxt?.trimLeft().length!)-(pretxt?.length!-pretxt?.trimLeft().length!);
-        let num = pretxt?.match(spa)![0].length!-curtxt?.match(spa)![0].length!;
-        console.log(num);
+        // let num = pretxt?.match(spa)![0].length!-curtxt?.match(spa)![0].length!;
+        // console.log(num);
         // console.log('curtxt.trim:',curtxt?.trimLeft());
         // console.log('pretxt:',pretxt);
         // console.log('pretxt.trim:',pretxt?.trimLeft());
@@ -114,17 +113,8 @@ export function activate(context: vscode.ExtensionContext) {
         console.log((pretxt?.match(spa)![0].length));
         console.log(JSON.stringify(curtxt?.match(spa)![0]));
         console.log(JSON.stringify(pretxt?.match(spa)![0]));
-        // console.log(pretxt?.match(spa)![0]!==curtxt?.match(spa)![0]);
-        // if (num>0){
-        //   console.log('spa');
-        //   vscode.window.showTextDocument(activeEditor?.document!)
-        //   .then(e=>{
-        //     e.edit(edit=>{
-        //       edit.insert(new vscode.Position(selection.start.line,selection.start.character)," ".repeat(num));
-        //     });
-        //   });
-        // }
         let n = pretxt?.match(spa)![0].length!-selection.start.character;
+        if (curtxt?.trimLeft().substr(0.3)==="\\*/"){return;}
         if (n>0){
           console.log('spa');
           vscode.window.showTextDocument(activeEditor?.document!)
