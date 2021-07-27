@@ -1,6 +1,6 @@
 
 import {appendFileSync} from "fs";
-import { exec} from "child_process";
+import { execSync} from "child_process";
 
 const args = process.argv;
 
@@ -15,32 +15,30 @@ interface Fragments{
   frags:Fragment[]
 }
 
-export const lsfiles = async () => {
+export const lsfiles = () => {
 
   let content:Fragments[] = [];
 
-  const run = String.raw`rg --json -U -P '(?<=^|\n)(?P<i>\s*)/\*\\.*(\n\k<i>\|\*\|.*)+\n\k<i>\\\*/' ${process.cwd()} -i ${process.cwd()+'\\Fragments.md'}`;
+  const run = String.raw`rg --json -U -P '(?<=^|\n)(?P<i>\s*)/\*\\.*(\n\k<i>\|\*\|.*)+\n\k<i>\\\*/' -g '!*.md' -g '!*.org' ${process.cwd()} -i ${process.cwd()+'\\Fragments.md'}`;
 
-  const re = exec(run,{shell:'pwsh',encoding:'utf-8'});
-  re.stdout!.on('data',(data:string)=>{
-    console.count('out');
-    console.log(data);
-
-    // 通过 throw new Error('') 来中断 `forof`
+  const re =  execSync(run,{shell:'pwsh',encoding:'utf-8'});
+  
+    /*\ ## 中断 `forof`
+    |*| - A:
+    |*|   - throw new Error('')
+    |*|   - break
+    \*/ 
     let err;
     try {
       let comp:Fragments = Object.create(null);
       comp.frags=[];
-      for (const i of data.split('\n')) {
+      for (const i of re.split('\n')) {
         err = i;
         if(i===''||i==='\r') {break;};
         let ctx = JSON.parse(i);
-        // console.log(1);
-        // console.log(ctx);
-        // console.log(2);
-        if (ctx.type ==='summary') {
+        if (ctx?.type ==='summary') {
           contentnormalize(content);
-          throw new Error("end");
+          break;
         }
         if (ctx?.type==='begin') {
           comp.filename = ctx.data.path.text;
@@ -52,7 +50,9 @@ export const lsfiles = async () => {
       if (comp.frags.length!==0){
         content.push(comp);
       }
-    } catch (error) {
+    }
+    // 
+    catch (error) {
       if((<string>error.message).includes('JSON')){
         console.log('JSON:',JSON.stringify(err));
       }
@@ -60,17 +60,62 @@ export const lsfiles = async () => {
         // console.log(error);
       }
     }
-  });
+  
+  // re.stdout!.on('data',(data:string)=>{
+  //   // console.count('out');
+  //   // console.log(data);
 
-  re.stderr!.on('data',(data:any)=>{
-    console.log(data);
-  });
-  re.on('close',(code:any)=>{
-    // console.log(code);
-  });
+  //   /*\ ## 中断 `forof`
+  //   |*| - A:
+  //   |*|   - throw new Error('')
+  //   \*/ 
+  //   let err;
+  //   try {
+  //     let comp:Fragments = Object.create(null);
+  //     comp.frags=[];
+  //     for (const i of data.split('\n')) {
+  //       err = i;
+  //       if(i===''||i==='\r') {break;};
+  //       let ctx = JSON.parse(i);
+  //       // console.log(1);
+  //       // console.log(ctx);
+  //       // console.log(2);
+  //       if (ctx.type ==='summary') {
+  //         contentnormalize(content);
+  //         throw new Error("end");
+  //       }
+  //       if (ctx?.type==='begin') {
+  //         comp.filename = ctx.data.path.text;
+  //       }
+  //       if (ctx?.type==='match') {
+  //       comp.frags.push({text:ctx.data.lines.text,lineNumber:ctx.data.lineNumber});
+  //       }
+  //     }
+  //     if (comp.frags.length!==0){
+  //       content.push(comp);
+  //     }
+  //   } catch (error) {
+  //     if((<string>error.message).includes('JSON')){
+  //       console.log('JSON:',JSON.stringify(err));
+  //     }
+  //     else{
+  //       // console.log(error);
+  //     }
+  //   }
+  // });
+
+  // re.stderr!.on('data',(data:any)=>{
+  //   console.log(data);
+  // });
+  // re.on('close',(code:any)=>{
+  //   // console.log(code);
+  // });
 
 };
 lsfiles();
+
+const handlergjson = ()=>{
+};
 
 const contentnormalize = (content:Fragments[])=>{
   for (const i of content) {
