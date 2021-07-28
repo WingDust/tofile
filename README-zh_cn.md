@@ -1,5 +1,34 @@
 #  tofile 
 ## [English](https://github.com/WingDust/tofile) | 简体中文
+
+## 项目定义
+  - 为方便本项目将文件下面的中双箭头模式区域称为 `Fragment` 
+  ```txt
+  /*\ ## Technical point
+  |*|  - R:
+  |*|   - [VSCode Open a File In a Specific Line Number Using JS](https://stackoverflow.com/questions/62453615/vscode-open-a-file-in-a-specific-line-number-using-js)
+  |*|   - [Capturing keystrokes in visual studio code extension](https://stackoverflow.com/questions/36727520/capturing-keystrokes-in-visual-studio-code-extension#answer-36753622)
+  |*|   - [How to open file and insert text using the VSCode API](https://stackoverflow.com/questions/38279920/how-to-open-file-and-insert-text-using-the-vscode-api)
+  \*/
+  ```
+
+## 特性
+  1. 使用命令 `tofile` 时，将探测当前光标这一行中含相对路径的字符串（像 `src/a.ts:2` 其中 `2` 为行号），并尝试进行在 VSCode 中打开跳转
+  ![tofile](FeatureImg/tofile.gif)
+  2. 补全 `Fragment` 
+  ![fragmentcomplete](FeatureImg/fragmentcomplete.gif)
+    - 已知问题
+      - 在普通打字删除前面的 `|*|` 将会出现 （在 Vim 普通模式下没有这个问题 ）
+      ![tpyeproblem](IssuesImg/tpyeproblem.gif)
+      - 为什么有这个问题
+        > 1. vscode 不支持多个扩展注册 type 命令，它导致只能一个扩展能细粒控制键盘事件
+
+        > 2. 而我不想将 tofile 写得那么复杂
+        - [Multiple extensions registering the 'type' command](https://github.com/microsoft/vscode/issues/13441)
+
+## 当使用仓库中的脚本时会有的依赖，使用 VSCode 扩展 tofile 本身无依赖
+  - `src/script/fragment.ts` 依赖 `ts-node` `ripgrep`
+  
 ## Reason 
   - 当你在写大型的项目时，会遇见林林总总各式各样的问题。
   - 通常来说，都是通过搜索引擎来找寻相似问题的答案来做参考，（当自己就能解决了，就会省去这一步，然而往往问题的解决方案不只一个。也经常会出现要注意的事）
