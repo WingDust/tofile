@@ -12,7 +12,7 @@
     context.subscriptions.push(vscode.commands.registerCommand(commandId, run));
   }
 
-  registerCommandNice('default:type',(args)=>{
+  registerCommandNice('type',(args)=>{
     console.log('run bk');
     if (!vscode.window.activeTextEditor) {
         return;
