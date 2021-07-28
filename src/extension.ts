@@ -9,7 +9,33 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { existsSync } from "fs";
 import { join } from "path";
+
+
+const linkto = (txt:string):string[]|null=>{
+    const re = /\b[^\?\*\:\"\<\>\\\\/\|\']+\b\/.+\..+:\d+(:\d)*/;
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (workspaceFolders) {
+      let link = txt.match(re);
+      if (link) {
+        let linkf =link[0].split(':');
+        linkf[0] = join(workspaceFolders[0].uri.fsPath,linkf[0]);
+        if (existsSync(linkf[0])) {return linkf;}
+        vscode.window.showInformationMessage(`Link file don't exist.`);
+        return null;
+      }
+      else{
+        if (vscode.env.language) {
+          console.log(vscode.env.language);
+          vscode.window.showInformationMessage(`Link file don't exist.`);
+        }
+        return null;
+      }
+    }
+    return null;
+};
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -26,8 +52,6 @@ export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('tofile.tofile', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
-    () => {
-
 
       // The code you place here will be executed every time your command is executed
       // Display a message box to the user
@@ -55,8 +79,6 @@ export function activate(context: vscode.ExtensionContext) {
           });
         }
       }
-      
-	};
 
 		// vscode.window.showInformationMessage('Hello World from tofile!');
 	});
@@ -114,7 +136,11 @@ export function activate(context: vscode.ExtensionContext) {
         console.log(JSON.stringify(curtxt?.match(spa)![0]));
         console.log(JSON.stringify(pretxt?.match(spa)![0]));
         let n = pretxt?.match(spa)![0].length!-selection.start.character;
-        if (curtxt?.trimLeft().substr(0.3)==="\\*/"){return;}
+        // console.log(n);
+        // console.log(JSON.stringify(curtxt?.trimLeft().substr(0,3)));
+        if (curtxt?.trimLeft().substr(0,3)==="\\*/"){
+          return;
+        }
         if (n>0){
           console.log('spa');
           vscode.window.showTextDocument(activeEditor?.document!)
@@ -149,28 +175,3 @@ export function activate(context: vscode.ExtensionContext) {
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
-
-const linkto = (txt:string):string[]|null=>{
-    const re = /\b[^\?\*\:\"\<\>\\\\/\|\']+\b\/.+\..+:\d+(:\d)*/;
-    const workspaceFolders = vscode.workspace.workspaceFolders;
-    if (workspaceFolders) {
-      let link = txt.match(re);
-      if (link) {
-        
-        let linkf =link[0].split(':');
-        linkf[0] = join(workspaceFolders[0].uri.fsPath,linkf[0]);
-        return linkf;
-      }
-      else{
-        if (vscode.env.language) {
-          console.log(vscode.env.language);
-          vscode.window.showInformationMessage(`Link file don't exist.`);
-        }
-        return null;
-      }
-    }
-    return null;
-};
-
-export const aa = ()=>{
-};
