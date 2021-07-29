@@ -2,7 +2,7 @@
   "name": "tofile",
 	"displayName": "tofile",
 	"description": "tofile location with line number",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"publisher": "wingdust",
 	"engines": {
 		"vscode": "^1.58.0"
