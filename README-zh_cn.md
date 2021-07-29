@@ -18,16 +18,17 @@
   ![tofile](FeatureImg/tofile.gif)
   2. 补全 `Fragment` 
   ![fragmentcomplete](FeatureImg/fragmentcomplete.gif)
-    - 已知问题
-      - 在普通打字删除前面的 `|*|` 将会出现 （在 Vim 普通模式下没有这个问题 ）
-      ![tpyeproblem](IssuesImg/tpyeproblem.gif)
-      - 解决方案：普通打字选中整行并删除
-      ![fixtype](IssuesImg/fixtype.gif)
-      - 为什么有这个问题
-        > 1. vscode 不支持多个扩展注册 type 命令，它导致只能一个扩展能细粒控制键盘事件
 
-        > 2. 而我不想将 tofile 写得那么复杂
-        - [Multiple extensions registering the 'type' command](https://github.com/microsoft/vscode/issues/13441)
+  - 已知问题
+    - 在普通打字删除前面的 `|*|` 将会出现 （在 Vim 普通模式下没有这个问题 ）
+    ![tpyeproblem](IssuesImg/tpyeproblem.gif)
+    - 解决方案：普通打字选中整行并删除
+    ![fixtype](IssuesImg/fixtype.gif)
+    - 为什么有这个问题
+      > 1. vscode 不支持多个扩展注册 type 命令，它导致只能一个扩展能细粒控制键盘事件
+
+      > 2. 而我不想将 tofile 写得那么复杂
+      - [Multiple extensions registering the 'type' command](https://github.com/microsoft/vscode/issues/13441)
 
 ## 当使用仓库中的脚本时会有的依赖，使用 VSCode 扩展 tofile 本身无依赖
   - `src/script/fragment.ts` 依赖 `ts-node` `ripgrep`

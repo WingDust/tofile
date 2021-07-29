@@ -21,16 +21,16 @@
   2. complete `Fragment`
   ![fragmentcomplete](FeatureImg/fragmentcomplete.gif)
 
-    - knowed problem
-      - In Normal type (include Vim Insert mode,but Vim Normal mode is work fine) to delete `|*|` will be
-      ![tpyeproblem](IssuesImg/tpyeproblem.gif)
-      - fix: Normal type need select totally line and delete 
-      ![fixtype](IssuesImg/fixtype.gif)
-      - Why has this problem
-        > 1. vscode don't support Multiple extensions registering the 'type' command, it cause only one extension can fine grain-size to control keystrokes event.
+  - knowed problem
+    - In Normal type (include Vim Insert mode,but Vim Normal mode is work fine) to delete `|*|` will be
+    ![tpyeproblem](IssuesImg/tpyeproblem.gif)
+    - fix: Normal type need select totally line and delete 
+    ![fixtype](IssuesImg/fixtype.gif)
+    - Why has this problem
+      > 1. vscode don't support Multiple extensions registering the 'type' command, it cause only one extension can fine grain-size to control keystrokes event.
 
-        > 2. I don't want make `tofile` complex
-        - [Multiple extensions registering the 'type' command](https://github.com/microsoft/vscode/issues/13441)
+      > 2. I don't want make `tofile` complex
+      - [Multiple extensions registering the 'type' command](https://github.com/microsoft/vscode/issues/13441)
 
 
 ## When you want to use fragment script in this repo, has Requirements
