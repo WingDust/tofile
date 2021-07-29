@@ -1,7 +1,13 @@
-import {appendFileSync} from "fs";
-import {execSync} from "child_process";
+import {appendFileSync,existsSync,unlinkSync,readFileSync} from "fs";
+import {execSync,} from "child_process";
+import { posix } from "path";
 
 const args = process.argv.slice(2);
+
+if (args.length===0) {
+  process.exit(0);
+}
+const fragmentfile = posix.join(process.cwd().replace(/\\/g,'/'),args[0]+'-Fragments.md');
 
 interface Fragment{
   text:string
@@ -13,24 +19,34 @@ interface Fragments{
 }
 
 
-const contentnormalize = (content:Fragments[])=>{
-  for (const i of content) {
-    for (const j of i.frags) {
-      console.log(j);
+/** 判断文件内容是否为空
+ * @param path 
+ * @returns boolean
+ */
+export const isEmptyContent = (path:string):boolean=>{
+  if (existsSync(path)&&readFileSync(path).length===0){return true;};
+  return false;
+};
 
-      // let frag
+const write = (str:string)=>{
+  appendFileSync(fragmentfile,str+'\n');
+};
+
+const contentnormalize = (content:Fragments[])=>{
+  for (const [i,fragment] of content.entries()) {
+    // 文件写入检查
+    if (i === 0 && isEmptyContent(fragmentfile)) {unlinkSync(fragmentfile);};
+
+    for (const j of fragment.frags) {
       for (const [k,line] of j.text.split('\n').entries()) {
         w:{
-        // console.log(k,line.substr(2,line.length));
-        // console.log(j.text.split('\n'));
-        // console.log(line.trim());
-
           switch (k) {
-            case 0:{
+            case 0:{ 
+
               let title = line.trim().substr(3,line.length).trim();
               if (title.length!==0) {
                 write(title);
-                write(`  > ${i.filename.replace(process.cwd()+'\\','').replace(/\\/g,'/')}:${j.lineNumber}`);
+                write(`  > ${fragment.filename.replace(process.cwd()+'\\','').replace(/\\/g,'/')}:${j.lineNumber}`);
                 break;
               }
               // console.log(1);
@@ -49,9 +65,6 @@ const contentnormalize = (content:Fragments[])=>{
   }
 };
 
-const write = (str:string)=>{
-  appendFileSync(process.cwd()+'\\Fragments.md',str+'\n');
-};
 
 export const lsfiles = () => {
 
@@ -87,7 +100,7 @@ export const lsfiles = () => {
         if(i===''||i==='\r') {break;};
         let ctx = JSON.parse(i);
         if (ctx?.type ==='summary') {
-          console.log(content);
+          // console.log(content);
           contentnormalize(content);
           break;
         }
