@@ -75,20 +75,28 @@
   > N: Note 
 
   ## how to break for 
-    - A: 
-      - aaaa
-    - N:
-      - aaaa
-    - R:
-      - [break for](https://****.com)
-      - [break for](https://****.com)
+  - N:
+    > aaaa
+  - A:
+    - aaaa
+    - bbbb
+  - R:
+    - [break for](https://****.com)
+    - [break for](https://****.com)
   ```
-  - Also we can simplify by **don't write mean current don't have**
+  - Also we can simplify follow below 
+    - **title mean Problem**
+    - **don't write mean current don't have**
+    - **`>` mean Note**
+    - **each single line list mean Answer**
+    - **when single line list is a link, mean Reference**
   ```md
   ## how to break for 
-    - R:
-      - [break for](https://****.com)
-      - [break for](https://****.com)
+  >  aaaa
+  - aaaa
+  - bbbb
+  - [break for](https://****.com)
+  - [break for](https://****.com)
   ```
   - Howover, this only can use in markdown file . And this templete write only just record problem rule. When problem never meet , This markdown file will useless and in vain.
   - So , I want to this templete write embed in code comment file like TypeScript/JavaScript
