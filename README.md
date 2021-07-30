@@ -90,7 +90,7 @@
     - **单行列表为链接时 代表参考**
   ```md
   ## 怎么中断 for 
-  >  aaaa
+  > aaaa
   - aaaa
   - bbbb
   - [中断for](https://****.com)
@@ -98,8 +98,22 @@
   ```
   - 然而这个只是在 Markdown 文件适用，而且这个模版写法只是记录下事情问题的规律，当没有这个问题发生时，就会变费力还没有用
   - 所以我想不对现有的情况做出大的改变，而又建立的新的写法习惯。
-  - 这个新的写法习惯就是将上面的 Markdown 中的模版写法，写入进代码注释中
-  - 这个使用 snippet 就是容易就做到的一件事 （如 vscode snippet）
+  - 这个新的写法习惯就是将上面的 Markdown 中的模版写法，**写入进代码注释中** 像 TypeScript/JavaScript
+  - 写入代码注释的样子像
+  ```ts
+  /*\ ## 中断 `forof`
+  |*| > 只能在使用
+  |*| - throw new Error('')
+  |*| - break
+  |*| - [中断for](https://****.com)
+  \*/
+  ```
+  - 为什么使用这个格式 `/*\ |*| \*/`
+    - 在代码中能直观知道这是一个 `Fragment`
+    - 在 VSCode 等编辑器，会**直接支持折叠注释块**，折叠后会只有一行问题显示，让代码清净一些
+    ![flod](FeatureImg/flod.png)
+
+  - 上面的 Markdown 中的模版写法，使用 snippet 就是容易就做到的一件事 （如 vscode snippet）
   - 上面的 Markdown 中的模版写法，写入代码文件中，有**好处**
     - QARN (Question,Answers,Reference,Note) 与代码在一个地方，**化零为整**。
     - **项目的正确则代表问题有解**

@@ -99,7 +99,21 @@
   - [break for](https://****.com)
   ```
   - Howover, this only can use in markdown file . And this templete write only just record problem rule. When problem never meet , This markdown file will useless and in vain.
-  - So , I want to this templete write embed in code comment file like TypeScript/JavaScript
+  - So , I want to this templete write **embed in code comment** file like TypeScript/JavaScript
+  - embed in code  comment like 
+  ```ts
+  /*\ ## how to break for
+  |*| > only can use in 
+  |*| - throw new Error('')
+  |*| - break
+  |*| - [break for](https://****.com)
+  \*/
+  ```
+  - Why use `/*\ |*| \*/`
+    - a glance know this is `Fragment` in code 
+    - Editor driect support **flod comment block** like VSCode
+    ![flod](FeatureImg/flod.png)
+
   - Use snippet is easy to archive like vscode snippet
   - embed in code comment: **good stuff**
     - QARN (Question,Answers,Reference,Note) record and code in one place, **gather parts into a whole**
