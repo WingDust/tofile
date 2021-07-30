@@ -12,7 +12,7 @@ import { join } from "path";
 
 
 const linkto = (txt:string):string[]|null=>{
-    const re = /\b[^\?\*:\"\<\>\\\/\|\']+\b(\/\b[^\?\*:\"\<\>\\\/\|\']+\b)?\.[A-Za-z]+(:\d+)?(:\d+)?/;
+    const re = /\b[^\?\*:\"\<\>\\\/\|\']+\b(\/\b[^\?\*:\"\<\>\\\/\|\']+\b)*\.[A-Za-z]+(:\d+)?(:\d+)?/;
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (workspaceFolders) {
       let link = txt.match(re);

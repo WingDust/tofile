@@ -14,7 +14,7 @@
 
 ## 特性
   1. 使用命令 `tofile` 时，将探测当前光标这一行中含相对路径的字符串（像 `src/a.ts:2:3` 其中 `2` 为行号，3为列号，行列可选），并尝试进行在 VSCode 中打开跳转
-  > **通过命令调用（F1 输入tofile）tofile 将会对当前光标这一行检索含有相对路径写法的字符串来进行用 VSCode 打开这个文件，也就跳转 jump**
+  - **通过命令调用（F1 输入tofile）tofile 将会对当前光标这一行检索含有相对路径写法的字符串来进行用 VSCode 打开这个文件，也就跳转 jump**
   ![tofile](FeatureImg/tofile.gif)
   2. 补全 `Fragment` 
   ![fragmentcomplete](FeatureImg/fragmentcomplete.gif)
