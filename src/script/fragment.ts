@@ -34,8 +34,8 @@ const write = (str:string)=>{
 
 const contentnormalize = (content:Fragments[])=>{
   for (const [i,fragment] of content.entries()) {
-    // 文件写入检查
-    if (i === 0 && isEmptyContent(fragmentfile)) {unlinkSync(fragmentfile);};
+    // 文件写入检查，不为空删除文件
+    if (i === 0 && !isEmptyContent(fragmentfile)) {unlinkSync(fragmentfile);};
 
     for (const j of fragment.frags) {
       for (const [k,line] of j.text.split('\n').entries()) {
@@ -46,7 +46,7 @@ const contentnormalize = (content:Fragments[])=>{
               let title = line.trim().substr(3,line.length).trim();
               if (title.length!==0) {
                 write(title);
-                write(`  > ${fragment.filename.replace(process.cwd()+'\\','').replace(/\\/g,'/')}:${j.lineNumber}`);
+                write(`> ${fragment.filename.replace(process.cwd()+'\\','').replace(/\\/g,'/')}:${j.lineNumber}`);
                 break;
               }
               // console.log(1);
@@ -55,7 +55,7 @@ const contentnormalize = (content:Fragments[])=>{
             }
             default:{
               if (line.trim().substr(3,line.length).trim()==='') {break;}
-              write(line.trim().substr(3,line.length));
+              write(line.trim().substr(3,line.length).trim());
               break;
             }
           }
@@ -89,10 +89,9 @@ export const lsfiles = () => {
   // console.log(re);
   
     /*\ ## 中断 `forof`
-    |*| - A:
-    |*|   - throw new Error('')
-    |*|   - break
-    \*/ 
+    |*| - throw new Error('')
+    |*| - break
+    \*/
     let err;//记录 JSON.parse 有误的信息
     try {
       for (const i of re.split('\n')) {
