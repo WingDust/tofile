@@ -1,8 +1,6 @@
 /*\ ## Technical point
-|*|  - R:
-|*|   - [VSCode Open a File In a Specific Line Number Using JS](https://stackoverflow.com/questions/62453615/vscode-open-a-file-in-a-specific-line-number-using-js)
-|*|   - [Capturing keystrokes in visual studio code extension](https://stackoverflow.com/questions/36727520/capturing-keystrokes-in-visual-studio-code-extension#answer-36753622)
-|*|   - [How to open file and insert text using the VSCode API](https://stackoverflow.com/questions/38279920/how-to-open-file-and-insert-text-using-the-vscode-api)
+|*| - [Capturing keystrokes in visual studio code extension](https://stackoverflow.com/questions/36727520/capturing-keystrokes-in-visual-studio-code-extension#answer-36753622)
+|*| - [How to open file and insert text using the VSCode API](https://stackoverflow.com/questions/38279920/how-to-open-file-and-insert-text-using-the-vscode-api)
 \*/
 
 
@@ -14,15 +12,23 @@ import { join } from "path";
 
 
 const linkto = (txt:string):string[]|null=>{
-    const re = /\b[^\?\*\:\"\<\>\\\\/\|\']+\b\/.+\..+:\d+(:\d)*/;
+    const re = /\b[^\?\*:\"\<\>\\\/\|\']+\b(\/\b[^\?\*:\"\<\>\\\/\|\']+\b)?\.[A-Za-z]+(:\d+)?(:\d+)?/;
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (workspaceFolders) {
       let link = txt.match(re);
       if (link) {
-        let linkf =link[0].split(':');
-        linkf[0] = join(workspaceFolders[0].uri.fsPath,linkf[0]);
-        if (existsSync(linkf[0])) {return linkf;}
-        vscode.window.showInformationMessage(`Link file don't exist.`);
+        if (link[0].includes(':')){
+          let linkf =link[0].split(':');
+          linkf[0] = join(workspaceFolders[0].uri.fsPath,linkf[0]);
+          if (existsSync(linkf[0])) {return linkf;}
+          vscode.window.showInformationMessage(`Link file don't exist.`);
+        }
+        else{
+          let linkf = join(workspaceFolders[0].uri.fsPath,link[0]);
+          if (existsSync(linkf)) {return [linkf];}
+          vscode.window.showInformationMessage(`Link file don't exist.`);
+        }
+        vscode.window.showInformationMessage(`Not have link sting.`);
         return null;
       }
       else{
@@ -58,24 +64,50 @@ export function activate(context: vscode.ExtensionContext) {
       const activeEditor = vscode.window.activeTextEditor;
     //   console.log(activeEditor?.document.getText());
       const position = activeEditor?.selection.active;
-      console.log(position);
+      // console.log(position);
       const curlinestart = new vscode.Position(position?.line!,0);
       const nextlinestart = new vscode.Position(position?.line!+1,0);
       const rangewith = new vscode.Range(curlinestart,nextlinestart);
       const curtxt =  activeEditor?.document.getText(rangewith);
-      console.log(JSON.stringify(curtxt));
+      // console.log(JSON.stringify(curtxt));
       const findpath = vscode.workspace.workspaceFolders;
-      console.log(findpath);
+      // console.log(findpath);
       if (curtxt) {
-         let path = linkto(curtxt);
+        let path = linkto(curtxt);
         if (path) {
           vscode.workspace.openTextDocument(path[0])
-          .then(document => vscode.window.showTextDocument(document))
-          .then(()=>{
+          .then(document => { 
+            vscode.window.showTextDocument(document)
+            .then((editor)=>{
 
-           let range = activeEditor?.document.lineAt(Number(path![1])).range;
-           activeEditor?.revealRange(range!);
+              /*\ ## 在 VSCode 中打开文件并跳转指定行
+              |*| - [VSCode Open a File In a Specific Line Number Using JS](https://stackoverflow.com/questions/62453615/vscode-open-a-file-in-a-specific-line-number-using-js)
+              |*| - [Extensibility API command for moving cursor to line](https://github.com/Microsoft/vscode/issues/6695)
+              |*| - [Vscode open file with showTextDocument at specified line](https://stackoverflow.com/questions/62313150/vscode-open-file-with-showtextdocument-at-specified-line)
+              \*/ 
 
+              if (path?.length===1){
+                let r = activeEditor?.document.lineAt(0).range;
+                editor.selection = new vscode.Selection(r?.start!,r?.end!);
+                editor?.revealRange(r!);
+              }
+              if (path?.length===2){
+                let l = Number(path[1])-1;
+                let pos1 = new vscode.Position(l,0);
+                editor.selections = [new vscode.Selection(pos1,pos1)];
+                let r = new vscode.Range(pos1,pos1);
+                editor?.revealRange(r!);
+              }
+              if (path?.length===3){
+                let l = Number(path[1])-1;
+                let c = Number(path[2]);
+                let pos1 = new vscode.Position(l,c);
+                editor.selections = [new vscode.Selection(pos1,pos1)];
+                let r = new vscode.Range(pos1,pos1);
+                activeEditor?.revealRange(r!);
+              }
+            });
+          
           });
         }
       }
@@ -115,11 +147,7 @@ export function activate(context: vscode.ExtensionContext) {
         if (pretxt?.trimLeft().substr(0,3)!=='|*|'){return;}
         // 修正缩进不对
         /*\ ## 只匹配空格
-        |*|  ```ts
-        |*|  '  \n'.match(new RegExp(String.raw`^\x20*`))
-        |*|  ```
-        |*|  - R:
-        |*|    - [正则表达式：只匹配空格，不匹配换行等其余空白字符](https://blog.csdn.net/jsjcmq/article/details/111935641)
+        |*| - [正则表达式：只匹配空格，不匹配换行等其余空白字符](https://blog.csdn.net/jsjcmq/article/details/111935641)
         \*/
 
         let spa = /^\x20*/;
