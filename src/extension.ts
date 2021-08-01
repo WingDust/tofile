@@ -12,6 +12,9 @@ import { join } from "path";
 
 
 const linkto = (txt:string):string[]|null=>{
+    /*\ ## 正则表达匹配一个词
+    |*| - [词边界：\b](https://zh.javascript.info/regexp-boundary)
+    \*/
     const re = /\b[^\?\*:\"\<\>\\\/\|\']+\b(\/\b[^\?\*:\"\<\>\\\/\|\']+\b)*\.[A-Za-z]+(:\d+)?(:\d+)?/;
     const workspaceFolders = vscode.workspace.workspaceFolders;
     if (workspaceFolders) {
